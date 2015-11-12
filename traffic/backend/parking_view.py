@@ -48,18 +48,26 @@ def street_parking_geojson_prediction(request):
         r = 0
         itemdic = dict()
         if not (pdate > edpdate or pdate1 < stpdate):  # use historical data
+            print "into if not"
             p = t.streetparking_set.filter(date__range=(pdate, pdate1))
             r = t.streetrate_set.filter(date__range=(pdate, pdate1))
             if pdate != pdate1:   # historical date range
+                print "into pdate != pdate1"
                 p = p.filter(cr[0] | cr[1] | cr[2] | cr[3] | cr[4] | cr[5] | cr[6])
                 r = r.filter(cr[0] | cr[1] | cr[2] | cr[3] | cr[4] | cr[5] | cr[6])
+                print "out pdate != pdate1"
         if (not p) or (p == 0):   # No historical data, use prediction
             if pdate1 == pdate:   # same day
+                print "into street pre same"
                 p = t.streetpre_set.filter(date__week_day=weekday)
                 r = t.streetratepre_set.filter(date__week_day=weekday)
+                print "out street pre"
             else:                 # Day ranges
+                print "into street pre"
                 p = t.streetpre_set.filter(cr[0] | cr[1] | cr[2] | cr[3] | cr[4] | cr[5] | cr[6])
+                print "into street pre rate"
                 r = t.streetratepre_set.filter(cr[0] | cr[1] | cr[2] | cr[3] | cr[4] | cr[5] | cr[6])
+                print "out street pre"
         if p:
             n = p.count()
             c = [0]*intervals
@@ -87,6 +95,7 @@ def street_parking_geojson_prediction(request):
             itemdic["properties"] = properties
             itemdic["geometry"] = geometry
             itemarray.append(itemdic)
+    print "Stiil live"
     resdic = {"type": "FeatureCollection","features": []}
     resdic["features"] = itemarray
     response = json.dumps(resdic)
