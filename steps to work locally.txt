@@ -1,0 +1,27 @@
+install python 2.7, pycharm
+install mysql, set root password to dataproject
+in pycharm install django
+install mysql-python
+in mysql: create database dataproject; use dataproject; // create a database called dataproject and switch to it
+in pycharm: tool/run manage.py task: syncdb    // build database tables locally
+in pycharm: tool/run manage.py task: runserver
+go to localhost:8000/traffic
+
+model.py: add table
+view.py: get table->render->call html
+
+url -> call .html -> ajax -> models.py
+
+GIT: git clone ec2-user@ec2-52-1-172-127.compute-1.amazonaws.com:/home/ec2-user/djcode/dataproject
+git branch ysg // git branch -d ysg
+git checkout master
+git pull
+git branch
+
+sudo service uwsgi stop
+sudo service uwsgi start
+sudo service nginx restart
+
+Fix SElinux: sudo setenforce permissive
+
+PW: 2205Trafik!
